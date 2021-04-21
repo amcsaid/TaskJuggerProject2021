@@ -1,10 +1,98 @@
-project acso "Accounting Software"  2002-01-16 +4m {
-  timezone "Europe/Paris"
+# PROJECT
+
+project acso "Infrastructure de cloud computing privee"  2021-01-16 +4w {
+  timezone "Africa/Casablanca"
   timeformat "%Y-%m-%d"
   numberformat "-" "" "," "." 1
   currencyformat "(" ")" "," "." 0
-  now 2002-03-05-13:00
-  currency "MAD"
+  #now 2002-03-05-13:00
+  currency "EUR"
+  markdate 2002-08-07-03:00
 }
+
+flags team
+rate 390.0
+
+account cost "Project Cost" {
+  account dev "Development"
+  account doc "Documentation"
+}
+account rev "Payments"
+
+balance cost rev
+
+
+# RH
+
+resource boss "Yassmine L." {
+  email "yassmine.lamari@saha.ma"
+  Phone "+21265958548"
+  rate 800
+}
+
+resource net "Network" {
+  managers boss
+  resource netadmin "Hicham E." {
+email "hicham.ee@saha.ma"
+  Phone "+2126654648"
+  rate 400
+  }
+  resource nettech "Abdellatif E." {
+	email "abdellatif.ee@saha.ma"
+  Phone "+2126695848"
+  rate 200
+  }
+  flags team
+}
+
+resource sysadmin "Said A." {
+email "said.am@saha.ma"
+  Phone "+2126555648"
+  rate 450
+ }
+
+resource dev "Youssef L." {
+email "youssef.l@saha.ma"
+  Phone "+21262274648"
+  rate 200
+ }
+
+resource sec "Hamza E." {
+email "hacker@saha.ma"
+  Phone "+21266666648"
+  rate 666
+ }
+
+# TASKS
+
+task completeproject "Infrastructure de cloud computing privee" {
+task intro "Démarrage" {
+         task intro "Realisation de cahier des charges" {}
+task intro "Realisation de cahier des charges" {}
+
+  }
+
+task soltech "Choix des solutions techniques" {
+
+  }
+
+task mat "Installation material" {
+  }
+
+task log "Installation logiciel" {
+  }
+
+task test "Réalisation des tests" {
+  }
+
+  }
+
+
+
+
+
+
+
+
 
 
