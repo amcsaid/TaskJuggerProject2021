@@ -1,0 +1,10 @@
+project acso "Accounting Software"  2002-01-16 +4m {
+  timezone "Europe/Paris"
+  timeformat "%Y-%m-%d"
+  numberformat "-" "" "," "." 1
+  currencyformat "(" ")" "," "." 0
+  now 2002-03-05-13:00
+  currency "MAD"
+}
+
+
