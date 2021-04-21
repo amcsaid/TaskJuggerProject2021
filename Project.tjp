@@ -1,91 +1,516 @@
-# PROJECT
+# project
 
-project acso "Infrastructure de cloud computing privee"  2021-01-16 +4w {
-  timezone "Africa/Casablanca"
-  timeformat "%Y-%m-%d"
+project acso "infrastructure de cloud computing privee"  2021-01-16 +15w  {
+  timezone "Etc/GMT"
+  timeformat "%y-%m-%d"
   numberformat "-" "" "," "." 1
   currencyformat "(" ")" "," "." 0
   #now 2002-03-05-13:00
-  currency "EUR"
-  markdate 2002-08-07-03:00
+  #markdate 2002-08-07-03:00
+  currency "eur"
+extend resource {
+    text Phone "Phone"
+  }
+
 }
 
 flags team
 rate 390.0
 
-account cost "Project Cost" {
-  account dev "Development"
-  account doc "Documentation"
+account cost "project cost" {
+  account dev "development"
+  account doc "documentation"
 }
-account rev "Payments"
+account rev "payments"
 
 balance cost rev
 
 
-# RH
 
-resource boss "Yassmine L." {
+# rh
+
+resource boss "yassmine l." {
   email "yassmine.lamari@saha.ma"
-  Phone "+21265958548"
+  Phone "21265958548"
   rate 800
 }
 
-resource net "Network" {
+resource net "network" {
   managers boss
-  resource netadmin "Hicham E." {
+  resource netadmin "hicham e." {
 email "hicham.ee@saha.ma"
   Phone "+2126654648"
   rate 400
   }
-  resource nettech "Abdellatif E." {
+  resource tech "abdellatif e." {
 	email "abdellatif.ee@saha.ma"
-  Phone "+2126695848"
+  Phone "2126695848"
   rate 200
   }
   flags team
 }
 
-resource sysadmin "Said A." {
+resource sysadmin "said a." {
 email "said.am@saha.ma"
-  Phone "+2126555648"
+  Phone "2126555648"
   rate 450
  }
 
-resource dev "Youssef L." {
+resource dev "youssef l." {
 email "youssef.l@saha.ma"
-  Phone "+21262274648"
+  Phone "21262274648"
   rate 200
  }
 
-resource sec "Hamza E." {
+resource sec "hamza e." {
 email "hacker@saha.ma"
-  Phone "+21266666648"
+  Phone "21266666648"
   rate 666
  }
 
-# TASKS
 
-task completeproject "Infrastructure de cloud computing privee" {
-task intro "Démarrage" {
-         task intro "Realisation de cahier des charges" {}
-task intro "Realisation de cahier des charges" {}
+# tasks
 
+task completeproject "infrastructure de cloud computing privee" {
+task intro "démarrage" {
+         task saw1 "realisation de cahier des charges" {
+#effort 35d
+length 4d
+allocate boss
+}
+         task saw2 "conception de larchitecture reseau" {
+#effort 35d
+length 10d
+depends !saw1
+            allocate boss, netadmin 
+            }
+         task dv1 "laudit" {
+             #effort 35d
+length 5d
+depends !saw2
+            allocate boss, netadmin 
+        }
   }
 
-task soltech "Choix des solutions techniques" {
-
+task soltech "choix des solutions techniques" {
+task nw1 "choix de la solution d’annuaire" {
+#effort 35d
+length 1d
+depends completeproject.intro.saw2
+allocate sysadmin
+}
+task nw2 "choix de la solution de stockage" {
+#effort 35d
+length 1d
+depends completeproject.intro.saw2
+allocate sysadmin, netadmin
+}
+task nw3 "choix de la solution d’enseignement à distance" {
+#effort 35d
+length 1d
+depends completeproject.intro.saw2
+allocate dev
+}
+task nw4 "choix de la solution de gestion de parc informatique" {
+#effort 35d
+length 1d
+depends completeproject.intro.saw2
+allocate sysadmin
+}
+task nw5 "choix de la solution de serveur de messagerie" {
+#effort 35d
+length 1d
+depends completeproject.intro.saw2
+allocate sysadmin
+}
+task nw6 "choix de la solution de webmail"  {
+#effort 35d
+length 1d
+depends completeproject.intro.saw2
+allocate dev
+}
+task nw7 "choix de la solution de voip" {
+#effort 35d
+length 1d
+depends completeproject.intro.saw2
+allocate sysadmin
+}
+ 	task  nw8 "choix de la solution de bureau virtuel" {
+#effort 35d
+length 1d
+depends completeproject.intro.saw2
+            allocate sysadmin, netadmin
+           }
   }
 
-task mat "Installation material" {
+task mat "installation material" {
+task dv2 "le câblage" {
+#effort 35d
+length 5d
+depends completeproject.intro.dv1
+allocate netadmin, tech
+}
+task dv3 "installation et configuration des serveurs" {
+#effort 35d
+length 5d
+depends !dv2
+allocate netadmin, tech, sysadmin
+}
+task dv4 "installation et configuration des switchs/routeur" {
+#effort 35d
+length 3d
+depends !dv3
+allocate netadmin, tech
+}
+task dv5 "configuration des droits d’accès" {
+#effort 35d
+length 2d
+depends !dv4
+allocate netadmin, tech, sec
+}
   }
 
-task log "Installation logiciel" {
+task log "installation logiciel" {
+task sec1 "installation du contrôleur de domaine (ad)"{
+#effort 35d
+length 1d
+depends completeproject.mat.dv5
+allocate sec, sysadmin
+}
+task sec2 "ajout des utilisateurs en lot au dc"{
+#effort 35d
+length 1d
+depends !sec1
+allocate sysadmin, tech
+}
+task sec3 "configuration des gpo"{
+#effort 35d
+length 1d
+depends !sec2
+allocate sysadmin
+}
+task sec4 "installation du serveur de sauvegarde freenas"{
+#effort 35d
+length 2d
+depends completeproject.mat.dv5
+allocate sysadmin
+}
+task sec5 "intégration du freenas dans l’ad"{
+#effort 35d
+length 1d
+depends !sec4
+allocate sysadmin
+}
+task sec6 "configuration du service ftp et smb sous freenas"{
+#effort 35d
+length 1d
+depends !sec5
+allocate sysadmin, sec
+}
+task sec7 "installation du serveur lamp"{
+#effort 35d
+length 2d
+depends completeproject.mat.dv5
+allocate dev, sec
+}
+task sec8 "installation du serveur de messagerie hmailserver"{
+#effort 35d
+length 1d
+depends !sec7
+allocate sysadmin, sec
+}
+task sec9 "installation du webmail lite php"{
+#effort 35d
+length 1d
+depends !sec8, !sec7
+allocate dev
+}
+task sec10 "intégration hmailserver avec ad"{
+#effort 35d
+length 1d
+depends !sec9, !sec3
+allocate sysadmin
+}
+task sec11 "installation du serveur voip"{
+#effort 35d
+length 2d
+depends completeproject.mat.dv5
+allocate sysadmin
+}
+task sec12 "installation gestion de parc informatique glpi"{#effort 35d
+length 1d
+depends completeproject.mat.dv5, !sec7
+allocate sysadmin
+}
+task sec13 "intégration glpi avec ad"{#effort 35d
+length 1d
+depends !sec2, !sec12
+allocate sysadmin
+}
+task sec14 "installation plateforme enseignement à distance moodle"{
+#effort 35d
+length 2d
+depends completeproject.mat.dv5, !sec7
+allocate dev
+}
+task sec15 "intégration moodle avec ad"{
+#effort 35d
+length 1d
+depends !sec14, !sec3
+allocate sysadmin
+}
+task sec16 "configuration du service bureau à distance"{
+#effort 35d
+length 2d
+depends !sec3
+allocate sysadmin
+}
+task sec17 "installation et configuration du serveur cloud"{
+#effort 35d
+length 2d
+depends completeproject.mat.dv5
+allocate sec, sysadmin
+}
+task sec18 "le portail web"{
+#effort 35d
+length 5d
+depends !sec7, !sec3, !sec6, !sec9, !sec11, !sec12, !sec14, !sec16, !sec17
+allocate dev
+}
   }
 
-task test "Réalisation des tests" {
+task test "réalisation des tests" {
+                task cs1 "test du material" {
+                         #effort 35d
+length 7d
+                                     depends completeproject.mat.dv5
+                         allocate sec, net
+               }
+                task cs2 "test de resaux" {
+                #effort 35d
+length 3d
+depends completeproject.mat.dv5
+                         allocate sec, net
+                 }
+                task cs3 "test des services" {
+                       #effort 35d
+length 3d
+depends completeproject.log.sec18
+                        allocate sec, tech
+                     }
+                task cs4 "test d'access" {
+                         #effort 35d
+length 2d
+depends completeproject.log.sec18
+                         allocate sec
+                 }
   }
 
+}  
+
+
+# Now the project has been specified completely. Stopping here would
+# result in a valid TaskJuggler file that could be processed and
+# scheduled. But no reports would be generated to visualize the
+# results.
+
+navigator navbar {
+  hidereport @none
+}
+
+macro TaskTip [
+  tooltip istask() -8<-
+    '''Start: ''' <-query attribute='start'->
+    '''End: ''' <-query attribute='end'->
+    ----
+    '''Resources:'''
+
+    <-query attribute='resources'->
+    ----
+    '''Precursors: '''
+
+    <-query attribute='precursors'->
+    ----
+    '''Followers: '''
+
+    <-query attribute='followers'->
+    ->8-
+]
+
+textreport frame "" {
+  header -8<-
+    == Accounting Software Project ==
+    <[navigator id="navbar"]>
+  ->8-
+  footer "----"
+  textreport index "Overview" {
+    formats html
+    center '<[report id="overview"]>'
   }
+
+  textreport "Status" {
+    formats html
+    center -8<-
+      <[report id="status.dashboard"]>
+      ----
+      <[report id="status.completed"]>
+      ----
+      <[report id="status.ongoing"]>
+      ----
+      <[report id="status.future"]>
+    ->8-
+  }
+
+  textreport development "Development" {
+    formats html
+    center '<[report id="development"]>'
+  }
+
+  textreport "Deliveries" {
+    formats html
+    center '<[report id="deliveries"]>'
+  }
+
+  textreport "ContactList" {
+    formats html
+    title "Contact List"
+    center '<[report id="contactList"]>'
+  }
+  textreport "ResourceGraph" {
+    formats html
+    title "Resource Graph"
+    center '<[report id="resourceGraph"]>'
+  }
+}
+
+# A traditional Gantt chart with a project overview.
+taskreport overview "" {
+  header -8<-
+    === Project Overview ===
+
+    The project is structured into 3 phases.
+
+    # Specification
+    # <-reportlink id='frame.development'->
+    # Testing
+
+    === Original Project Plan ===
+  ->8-
+  columns bsi { title 'WBS' },
+          name, start, end, effort, cost,
+          revenue, chart { ${TaskTip} }
+  # For this report we like to have the abbreviated weekday in front
+  # of the date. %a is the tag for this.
+  timeformat "%a %Y-%m-%d"
+  loadunit days
+  hideresource @all
+  balance cost rev
+  caption 'All effort values are in man days.'
+
+  footer -8<-
+    === Staffing ===
+
+    All project phases are properly staffed. See [[ResourceGraph]] for
+    detailed resource allocations.
+
+    === Current Status ===
+
+    The project started off with a delay of 4 days. This slightly affected
+    the original schedule. See [[Deliveries]] for the impact on the
+    delivery dates.
+  ->8-
+}
+
+# Macro to set the background color of a cell according to the alert
+# level of the task.
+macro AlertColor [
+  cellcolor plan.alert = 0 "#00D000" # green
+  cellcolor plan.alert = 1 "#D0D000" # yellow
+  cellcolor plan.alert = 2 "#D00000" # red
+]
+
+taskreport status "" {
+  columns bsi { width 50 title 'WBS' }, name { width 150 },
+          start { width 100 }, end { width 100 },
+          effort { width 100 },
+          alert { tooltip plan.journal
+                          != '' "<-query attribute='journal'->" width 150 },
+          status { width 150 }
+
+  taskreport dashboard "" {
+    headline "Project Dashboard (<-query attribute='now'->)"
+    columns name { title "Task" ${AlertColor} width 200},
+            resources { width 200 ${AlertColor}
+                        listtype bullets
+                        listitem "<-query attribute='name'->"
+                        start ${projectstart} end ${projectend} },
+            alerttrend { title "Trend" ${AlertColor} width 50 },
+            journal { width 350 ${AlertColor} }
+    journalmode status_up
+    journalattributes headline, author, date, summary, details
+    hidetask ~hasalert(0)
+    period %{${now} - 1w} +1w
+  }
+  taskreport completed "" {
+    headline "Already completed tasks"
+  }
+  taskreport ongoing "" {
+    headline "Ongoing tasks"
+   
+  }
+  taskreport future "" {
+    headline "Future tasks"
+    
+  }
+}
+
+# A list of tasks showing the resources assigned to each task.
+taskreport development "" {
+  
+  headline "Development - Resource Allocation Report"
+  columns bsi { title 'WBS' }, name, start, end, effort { title "Work" },
+          duration, chart { ${TaskTip} scale day width 500 }
+  timeformat "%Y-%m-%d"
+  hideresource ~(isleaf() & isleaf_())
+  sortresources name.up
+}
+
+# A list of all tasks with the percentage completed for each task
+taskreport deliveries "" {
+  headline "Project Deliverables"
+  columns bsi { title 'WBS' }, name, start, end, note { width 20}, complete,
+          chart { ${TaskTip} scale day width 500 }
+  taskroot AcSo.deliveries
+  hideresource @all
+  scenarios plan
+}
+# A list of all employees with their contact details.
+resourcereport contactList "" {
+  
+  headline "Contact list and duty plan"
+  columns name,
+          email { celltext 1 "[mailto:<-email-> <-email->]" },
+          Phone,
+          managers { title "Manager" },
+          chart { scale day }
+  hideresource ~isleaf()
+  sortresources name.up
+  hidetask @all
+}
+
+# A graph showing resource allocation. It identifies whether each
+# resource is under- or over-allocated for.
+resourcereport resourceGraph "" {
+ 
+  headline "Resource Allocation Graph"
+  columns no, name, effort, rate, weekly { ${TaskTip} }
+  loadunit shortauto
+  # We only like to show leaf tasks for leaf resources.
+  hidetask ~(isleaf() & isleaf_())
+  sorttasks plan.start.up
+}
+
+
 
 
 
